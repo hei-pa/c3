@@ -109,16 +109,27 @@ c3_chart_internal_fn.initParams = function () {
 
     $$.dataTimeFormat = config.data_xLocaltime ? d3.timeFormat : d3.utcFormat;
     $$.axisTimeFormat = config.axis_x_localtime ? d3.timeFormat : d3.utcFormat;
-    $$.defaultAxisTimeFormat = $$.axisTimeFormat.multi([
-        [".%L", function (d) { return d.getMilliseconds(); }],
-        [":%S", function (d) { return d.getSeconds(); }],
-        ["%I:%M", function (d) { return d.getMinutes(); }],
-        ["%I %p", function (d) { return d.getHours(); }],
-        ["%-m/%-d", function (d) { return d.getDay() && d.getDate() !== 1; }],
-        ["%-m/%-d", function (d) { return d.getDate() !== 1; }],
-        ["%-m/%-d", function (d) { return d.getMonth(); }],
-        ["%Y/%-m/%-d", function () { return true; }]
-    ]);
+
+    $$.defaultAxisTimeFormat = function multiFormat(date) {
+
+        var formatMillisecond = $$.axisTimeFormat(".%L"),
+        formatSecond = $$.axisTimeFormat(":%S"),
+        formatMinute = $$.axisTimeFormat("%I:%M"),
+        formatHour = $$.axisTimeFormat("%I %p"),
+        formatDay = $$.axisTimeFormat("%a %d"),
+        formatWeek = $$.axisTimeFormat("%b %d"),
+        formatMonth = $$.axisTimeFormat("%B"),
+        formatYear = $$.axisTimeFormat("%Y");
+
+        return (d3.timeSecond(date) < date ? formatMillisecond
+        : d3.timeMinute(date) < date ? formatSecond
+        : d3.timeHour(date) < date ? formatMinute
+        : d3.timeDay(date) < date ? formatHour
+        : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
+        : d3.timeYear(date) < date ? formatMonth
+        : formatYear)(date);
+
+    };
 
     $$.hiddenTargetIds = [];
     $$.hiddenLegendIds = [];
@@ -937,7 +948,7 @@ c3_chart_internal_fn.bindResize = function () {
     $$.resizeFunction.add(function () {
         config.onresized.call($$);
     });
-    
+
     var resizeIfElementDisplayed = function() {
         // if element not displayed skip it
         if (!$$.api.element.offsetParent) {
