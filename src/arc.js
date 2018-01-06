@@ -62,7 +62,7 @@ c3_chart_internal_fn.updateAngle = function (d) {
 
 c3_chart_internal_fn.getSvgArc = function () {
     var $$ = this,
-        arc = $$.d3.svg.arc().outerRadius($$.radius).innerRadius($$.innerRadius),
+        arc = $$.d3.arc().outerRadius($$.radius).innerRadius($$.innerRadius),
         newArc = function (d, withoutUpdate) {
             var updated;
             if (withoutUpdate) { return arc(d); } // for interpolate
@@ -76,7 +76,7 @@ c3_chart_internal_fn.getSvgArc = function () {
 
 c3_chart_internal_fn.getSvgArcExpanded = function (rate) {
     var $$ = this,
-        arc = $$.d3.svg.arc().outerRadius($$.radiusExpanded * (rate ? rate : 1)).innerRadius($$.innerRadius);
+        arc = $$.d3.arc().outerRadius($$.radiusExpanded * (rate ? rate : 1)).innerRadius($$.innerRadius);
     return function (d) {
         var updated = $$.updateAngle(d);
         return updated ? arc(updated) : "M 0 0";
