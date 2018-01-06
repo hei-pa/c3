@@ -213,7 +213,7 @@ function AxisInternal(component, params) {
     internal.params = params || {};
 
     internal.d3 = component.d3;
-    internal.scale = internal.d3.scale.linear();
+    internal.scale = internal.d3.scaleLinear();
     internal.range;
     internal.orient = "bottom";
     internal.innerTickSize = 6;
@@ -7586,7 +7586,7 @@ c3_chart_internal_fn.isRegionOnX = function (d) {
 };
 
 c3_chart_internal_fn.getScale = function (min, max, forTimeseries) {
-    return (forTimeseries ? this.d3.time.scale() : this.d3.scale.linear()).range([min, max]);
+    return (forTimeseries ? this.d3.scaleTime() : this.d3.scaleLinear()).range([min, max]);
 };
 c3_chart_internal_fn.getX = function (min, max, domain, offset) {
     var $$ = this,
