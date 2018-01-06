@@ -107,8 +107,8 @@ c3_chart_internal_fn.initParams = function () {
     $$.color = $$.generateColor();
     $$.levelColor = $$.generateLevelColor();
 
-    $$.dataTimeFormat = config.data_xLocaltime ? d3.time.format : d3.time.format.utc;
-    $$.axisTimeFormat = config.axis_x_localtime ? d3.time.format : d3.time.format.utc;
+    $$.dataTimeFormat = config.data_xLocaltime ? d3.timeFormat : d3.utcFormat;
+    $$.axisTimeFormat = config.axis_x_localtime ? d3.timeFormat : d3.utcFormat;
     $$.defaultAxisTimeFormat = $$.axisTimeFormat.multi([
         [".%L", function (d) { return d.getMilliseconds(); }],
         [":%S", function (d) { return d.getSeconds(); }],
