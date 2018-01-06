@@ -4333,7 +4333,7 @@ c3_chart_fn.zoom.range = function (range) {
 c3_chart_internal_fn.initPie = function () {
     var $$ = this,
         d3 = $$.d3;
-    $$.pie = d3.layout.pie().value(function (d) {
+    $$.pie = d3.pie().value(function (d) {
         return d.values.reduce(function (a, b) {
             return a + b.value;
         }, 0);
