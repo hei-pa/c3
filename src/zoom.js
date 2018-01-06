@@ -6,7 +6,7 @@ c3_chart_internal_fn.initZoom = function () {
     var $$ = this, d3 = $$.d3, config = $$.config, startEvent;
 
     $$.zoom = d3.zoom()
-        .on("zoomstart", function () {
+        .on("start", function () {
             startEvent = d3.event.sourceEvent;
             $$.zoom.altDomain = d3.event.sourceEvent.altKey ? $$.x.orgDomain() : null;
             config.zoom_onzoomstart.call($$.api, d3.event.sourceEvent);
@@ -14,7 +14,7 @@ c3_chart_internal_fn.initZoom = function () {
         .on("zoom", function () {
             $$.redrawForZoom.call($$);
         })
-        .on('zoomend', function () {
+        .on('end', function () {
             var event = d3.event.sourceEvent;
             // if click, do nothing. otherwise, click interaction will be canceled.
             if (event && startEvent.clientX === event.clientX && startEvent.clientY === event.clientY) {
