@@ -8530,7 +8530,7 @@ c3_chart_internal_fn.getEventRectWidth = function () {
 c3_chart_internal_fn.initBrush = function () {
     var $$ = this,
         d3 = $$.d3;
-    $$.brush = d3.svg.brush().on("brush", function () {
+    $$.brush = d3.brushX().on("brush", function () {
         $$.redrawForBrush();
     });
     $$.brush.update = function () {
