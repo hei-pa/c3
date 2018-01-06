@@ -1980,10 +1980,19 @@ c3_chart_internal_fn.bindResize = function () {
         config.onresized.call($$);
     });
 
+    var resizeIfElementDisplayed = function resizeIfElementDisplayed() {
+        // if element not displayed skip it
+        if (!$$.api.element.offsetParent) {
+            return;
+        }
+
+        $$.resizeFunction();
+    };
+
     if (window.attachEvent) {
-        window.attachEvent('onresize', $$.resizeFunction);
+        window.attachEvent('onresize', resizeIfElementDisplayed);
     } else if (window.addEventListener) {
-        window.addEventListener('resize', $$.resizeFunction, false);
+        window.addEventListener('resize', resizeIfElementDisplayed, false);
     } else {
         // fallback to this, if this is a very old browser
         var wrapper = window.onresize;
@@ -1997,7 +2006,14 @@ c3_chart_internal_fn.bindResize = function () {
         }
         // add this graph to the wrapper, we will be removed if the user calls destroy
         wrapper.add($$.resizeFunction);
-        window.onresize = wrapper;
+        window.onresize = function () {
+            // if element not displayed skip it
+            if (!$$.api.element.offsetParent) {
+                return;
+            }
+
+            wrapper();
+        };
     }
 };
 
@@ -4953,7 +4969,7 @@ c3_chart_internal_fn.generateColor = function () {
         config = $$.config,
         d3 = $$.d3,
         colors = config.data_colors,
-        pattern = notEmpty(config.color_pattern) ? config.color_pattern : d3.scale.category10().range(),
+        pattern = notEmpty(config.color_pattern) ? config.color_pattern : d3.scaleOrdinal(d3.schemeCategory10).range(),
         callback = config.data_color,
         ids = [];
 
