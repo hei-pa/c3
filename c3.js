@@ -9167,13 +9167,13 @@ c3_chart_internal_fn.initZoom = function () {
         config = $$.config,
         startEvent;
 
-    $$.zoom = d3.zoom().on("zoomstart", function () {
+    $$.zoom = d3.zoom().on("start", function () {
         startEvent = d3.event.sourceEvent;
         $$.zoom.altDomain = d3.event.sourceEvent.altKey ? $$.x.orgDomain() : null;
         config.zoom_onzoomstart.call($$.api, d3.event.sourceEvent);
     }).on("zoom", function () {
         $$.redrawForZoom.call($$);
-    }).on('zoomend', function () {
+    }).on('end', function () {
         var event = d3.event.sourceEvent;
         // if click, do nothing. otherwise, click interaction will be canceled.
         if (event && startEvent.clientX === event.clientX && startEvent.clientY === event.clientY) {
