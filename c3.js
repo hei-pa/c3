@@ -9167,7 +9167,7 @@ c3_chart_internal_fn.initZoom = function () {
         config = $$.config,
         startEvent;
 
-    $$.zoom = d3.behavior.zoom().on("zoomstart", function () {
+    $$.zoom = d3.zoom().on("zoomstart", function () {
         startEvent = d3.event.sourceEvent;
         $$.zoom.altDomain = d3.event.sourceEvent.altKey ? $$.x.orgDomain() : null;
         config.zoom_onzoomstart.call($$.api, d3.event.sourceEvent);
